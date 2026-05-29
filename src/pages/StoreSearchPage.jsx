@@ -97,7 +97,7 @@ export default function StoreSearchPage() {
       {/* Premium Hero Section */}
       <div className="w-full max-w-7xl px-6 pt-24 pb-16 text-center flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-semibold uppercase tracking-widest mb-6">
-          <ShoppingBag size={14} /> Multi-Vendor Local Marketplace
+          <ShoppingBag size={14} /> MULTI VERSE
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl tracking-tight text-slate-900 max-w-3xl leading-[1.1] mb-6">
           Everything You Need, From <span className="bg-gradient-to-r from-cyan-600 to-indigo-600 bg-clip-text text-transparent">Local Vendors</span>
