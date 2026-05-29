@@ -96,9 +96,9 @@ export default function StoreSearchPage() {
       </nav>
       {/* Premium Hero Section */}
       <div className="w-full max-w-7xl px-6 pt-24 pb-16 text-center flex flex-col items-center">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-50/70 border border-cyan-100/80 shadow-sm text-xs mb-6">
-          <ShoppingBag size={13} className="text-slate-900" />
-          <span className="font-display font-black tracking-tighter text-slate-900">
+        <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-cyan-50/80 border border-cyan-100 shadow-md mb-8">
+          <ShoppingBag size={18} className="text-slate-900" />
+          <span className="font-display font-black text-lg tracking-tight text-slate-900">
             Multi<span className="text-cyan-600">Verse</span>
           </span>
         </div>
