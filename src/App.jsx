@@ -9,6 +9,7 @@ import CustomerLoginPage from './pages/CustomerLoginPage'
 import DashboardPage from './pages/DashboardPage'
 import StoreSearchPage from './pages/StoreSearchPage'
 import StorefrontPage from './pages/StorefrontPage'
+import IntroPage from './pages/IntroPage'
 
 // Auth Guard Component
 function AuthGuard({ children }) {
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/login"          element={<CustomerLoginPage />} />
           
           {/* Protected Routes (Require Login) */}
+          <Route path="/intro"          element={<AuthGuard><IntroPage /></AuthGuard>} />
           <Route path="/dashboard"      element={<AuthGuard><DashboardPage /></AuthGuard>} />
           <Route path="/search-stores"  element={<AuthGuard><StoreSearchPage /></AuthGuard>} />
           <Route path="/store/:storeId" element={<AuthGuard><StorefrontPage /></AuthGuard>} />

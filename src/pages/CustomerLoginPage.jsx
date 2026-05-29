@@ -225,7 +225,7 @@ export default function CustomerLoginPage() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        navigate('/search-stores', { replace: true })
+        navigate('/intro', { replace: true })
       }
     })
     return unsub
@@ -262,7 +262,7 @@ export default function CustomerLoginPage() {
       { opacity: 0 },
       {
         opacity: 1, duration: 0.5, ease: 'power2.inOut',
-        onComplete: () => navigate('/search-stores', { replace: true })
+        onComplete: () => navigate('/intro', { replace: true })
       }
     )
   }
