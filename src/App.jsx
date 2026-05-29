@@ -45,8 +45,8 @@ function AuthGuard({ children }) {
 export default function App() {
   const location = useLocation()
 
-  // Show 3D background on landing + login pages
-  const showCanvas = ['/', '/login'].includes(location.pathname)
+  // Show 3D background on landing + login + search pages
+  const showCanvas = ['/', '/login', '/search-stores'].includes(location.pathname)
   const isPortals  = location.pathname === '/login'
 
   return (
