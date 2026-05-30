@@ -664,17 +664,17 @@ export default function Deliverse() {
     const pick = form.pickup.value
     const drop = form.drop.value
 
-    let base = 4.00
-    if (size === 'envelope') base = 3.00
-    else if (size === 'medium') base = 5.50
-    else if (size === 'large') base = 9.00
+    let base = 4.00 * 83
+    if (size === 'envelope') base = 3.00 * 83
+    else if (size === 'medium') base = 5.50 * 83
+    else if (size === 'large') base = 9.00 * 83
 
-    base += Math.max(0, (weight - 1) * 0.75)
+    base += Math.max(0, (weight - 1) * 0.75) * 83
 
-    let distSurcharge = 2.00
-    if (pick === drop) distSurcharge = 1.00
-    else if ((pick === 'harbor' && drop === 'suburbs') || (pick === 'suburbs' && drop === 'harbor')) distSurcharge = 4.50
-    else distSurcharge = 2.75
+    let distSurcharge = 2.00 * 83
+    if (pick === drop) distSurcharge = 1.00 * 83
+    else if ((pick === 'harbor' && drop === 'suburbs') || (pick === 'suburbs' && drop === 'harbor')) distSurcharge = 4.50 * 83
+    else distSurcharge = 2.75 * 83
 
     let mult = 1.0
     let label = 'Same-day (Under 4 hours)'
@@ -1043,10 +1043,10 @@ export default function Deliverse() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
             {[
-              { id: 'bike', title: 'Electric Cargo Bicycle', badge: 'Eco Friendly', desc: 'Pedal-assist micro-mobility. The ultimate choice for zero-emissions neighborhood drop-offs and tight city alleyways.', w: '20 kg', r: '50 km', s: '25 km/h', price: '$8.00', icon: '🚲', bg: 'rgba(16, 185, 129, 0.08)', color: '#10b981' },
-              { id: 'moped', title: 'Electric Cargo Moped', badge: 'Popular', desc: 'High-speed moped courier with custom dual-battery swaps. Designed for ultra-fast merchant checkout parcel fulfillment.', w: '45 kg', r: '90 km', s: '55 km/h', price: '$15.00', icon: '🏍️', bg: 'rgba(6, 182, 212, 0.08)', color: '#06b6d4' },
-              { id: 'auto', title: 'Cargo Goods Auto', badge: 'Heavy Duty', desc: 'Local high-torque three-wheeler tempo. Perfect for loading heavy boxes, bulk wholesale packages, and local market crates.', w: '400 kg', r: '120 km', s: '60 km/h', price: '$35.00', icon: '🛺', bg: 'rgba(245, 158, 11, 0.08)', color: '#f59e0b' },
-              { id: 'lorry', title: 'Express Lorry Truck', badge: 'Max Cargo', desc: 'Premium multi-ton container truck. Optimized for heavy warehouse transfers, large commercial furniture, and bulk freight shipping.', w: '2,500 kg', r: 'Unlimited', s: '300 HP', price: '$75.00', icon: '🚛', bg: 'rgba(79, 70, 229, 0.08)', color: '#4f46e5' }
+              { id: 'bike', title: 'Electric Cargo Bicycle', badge: 'Eco Friendly', desc: 'Pedal-assist micro-mobility. The ultimate choice for zero-emissions neighborhood drop-offs and tight city alleyways.', w: '20 kg', r: '50 km', s: '25 km/h', price: '₹660.00', icon: '🚲', bg: 'rgba(16, 185, 129, 0.08)', color: '#10b981' },
+              { id: 'moped', title: 'Electric Cargo Moped', badge: 'Popular', desc: 'High-speed moped courier with custom dual-battery swaps. Designed for ultra-fast merchant checkout parcel fulfillment.', w: '45 kg', r: '90 km', s: '55 km/h', price: '₹1,250.00', icon: '🏍️', bg: 'rgba(6, 182, 212, 0.08)', color: '#06b6d4' },
+              { id: 'auto', title: 'Cargo Goods Auto', badge: 'Heavy Duty', desc: 'Local high-torque three-wheeler tempo. Perfect for loading heavy boxes, bulk wholesale packages, and local market crates.', w: '400 kg', r: '120 km', s: '60 km/h', price: '₹2,900.00', icon: '🛺', bg: 'rgba(245, 158, 11, 0.08)', color: '#f59e0b' },
+              { id: 'lorry', title: 'Express Lorry Truck', badge: 'Max Cargo', desc: 'Premium multi-ton container truck. Optimized for heavy warehouse transfers, large commercial furniture, and bulk freight shipping.', w: '2,500 kg', r: 'Unlimited', s: '300 HP', price: '₹6,200.00', icon: '🚛', bg: 'rgba(79, 70, 229, 0.08)', color: '#4f46e5' }
             ].map(v => (
               <div key={v.id} className="bg-white border border-slate-200/70 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-4 relative">
                 <span className="absolute top-4 right-4 bg-cyan-50 border border-cyan-100 text-cyan-600 text-[8px] font-display font-extrabold uppercase px-2 py-0.5 rounded-full tracking-wider">{v.badge}</span>
@@ -1367,12 +1367,12 @@ export default function Deliverse() {
               <div className="bg-slate-50 border border-slate-100 p-6 rounded-xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
                 <div className="flex justify-between items-center border-b border-slate-200/80 pb-3">
                   <h4 className="font-display font-bold text-[14px] text-slate-800">Your Quote Details</h4>
-                  <span className="font-display font-black text-2xl text-cyan-600">${calcResults.total}</span>
+                  <span className="font-display font-black text-2xl text-cyan-600">₹{calcResults.total}</span>
                 </div>
                 <div className="flex flex-col gap-2 font-semibold text-[13px] text-slate-500">
-                  <div className="flex justify-between"><span>Transit Base Price:</span><span className="text-slate-800">${calcResults.base}</span></div>
-                  <div className="flex justify-between"><span>Distance Charge:</span><span className="text-slate-800">${calcResults.dist}</span></div>
-                  <div className="flex justify-between border-t border-slate-100 pt-3 mt-1 font-bold text-slate-800"><span>Estimated Cost:</span><span className="text-cyan-600">${calcResults.total}</span></div>
+                  <div className="flex justify-between"><span>Transit Base Price:</span><span className="text-slate-800">₹{calcResults.base}</span></div>
+                  <div className="flex justify-between"><span>Distance Charge:</span><span className="text-slate-800">₹{calcResults.dist}</span></div>
+                  <div className="flex justify-between border-t border-slate-100 pt-3 mt-1 font-bold text-slate-800"><span>Estimated Cost:</span><span className="text-cyan-600">₹{calcResults.total}</span></div>
                   <div className="flex justify-between italic mt-1"><span>Estimated Arrival:</span><span className="text-slate-700 font-bold">{calcResults.window}</span></div>
                 </div>
               </div>
