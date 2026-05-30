@@ -10,6 +10,7 @@ import CustomerLoginPage from './pages/CustomerLoginPage'
 import DashboardPage from './pages/DashboardPage'
 import StoreSearchPage from './pages/StoreSearchPage'
 import StorefrontPage from './pages/StorefrontPage'
+import Deliverse from './pages/Deliverse'
 
 // Auth Guard Component
 function AuthGuard({ children }) {
@@ -45,8 +46,8 @@ function AuthGuard({ children }) {
 export default function App() {
   const location = useLocation()
 
-  // Show 3D background on landing + login pages
-  const showCanvas = ['/', '/login'].includes(location.pathname)
+  // Show 3D background on landing + login pages + deliverse
+  const showCanvas = ['/', '/login', '/deliverse'].includes(location.pathname)
   const isPortals  = location.pathname === '/login'
 
   return (
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/"               element={<LandingPage />} />
           <Route path="/portals"        element={<Navigate to="/login" replace />} />
           <Route path="/login"          element={<CustomerLoginPage />} />
+          <Route path="/deliverse"      element={<AuthGuard><Deliverse /></AuthGuard>} />
           
           {/* Protected Routes (Require Login) */}
           <Route path="/dashboard"      element={<AuthGuard><DashboardPage /></AuthGuard>} />

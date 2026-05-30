@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Deliverse by Multiverse - Premium city-wide same-day logistics and delivery portal for local merchants and vendors. Fast, reliable, and worry-free.">
+  <title>Deliverse - Speed Meets Reliability in Every Delivery</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Three.js & OrbitControls for 3D Vehicle Rotation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- Firebase App & Auth CDNs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- App Wrapper representing the rounded design canvas in the image -->
+  <div class="canvas-container">
+    
+    <!-- Header Navigation -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <span class="logo-box box-1"></span>
+          <span class="logo-box box-2"></span>
+        </div>
+        <div class="logo-text">
+          <span class="brand-name">Deliverse</span>
+          <span class="brand-sub">by Multiverse</span>
+        </div>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="#home" class="active">Home</a>
+        <a href="#services" id="nav-services">Services</a>
+        <a href="#integrations" id="nav-integrations">Integrations</a>
+        <a href="#pricing" id="nav-pricing">Pricing</a>
+        <a href="#contact" id="nav-contact">Contact</a>
+        <a href="#tracking" class="tracking-link" id="nav-tracking"><i class="fa-solid fa-location-crosshairs"></i> Track Shipment</a>
+      </nav>
+      
+      <div class="header-actions">
+        <!-- Welcome & Logout Profile Pill -->
+        <div id="user-profile-pill" class="user-profile-pill hidden">
+          <span class="avatar-emoji">👤</span>
+          <span id="header-user-name" class="profile-name">Merchant</span>
+          <button id="btn-header-logout" class="btn-logout-small" title="Sign Out">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+        <a href="#" class="btn-text-link" id="btn-get-started">Get started</a>
+        <a href="#" class="btn-pill-green" id="btn-start-shipping">Start shipping</a>
+      </div>
+      
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-nav-drawer">
+      <div class="drawer-header">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <span class="logo-box box-1"></span>
+            <span class="logo-box box-2"></span>
+          </div>
+          <span class="brand-name">Deliverse</span>
+        </div>
+        <button class="drawer-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="drawer-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+        <a href="#tracking" class="drawer-track-link"><i class="fa-solid fa-location-crosshairs"></i> Track Shipment</a>
+      </div>
+      <div class="drawer-actions">
+        <a href="#" class="btn-text-link-mob">Get started</a>
+        <a href="#" class="btn-pill-green-mob">Start shipping</a>
+      </div>
+    </div>
+    
+    <!-- Main Content Container -->
+    <main class="app-main">
+      
+      <!-- HERO SECTION -->
+      <section class="hero-section" id="home">
+        <div class="hero-content">
+          <!-- Top Capsule Badge -->
+          <div class="yellow-badge-wrapper">
+            <button class="btn-yellow-badge" id="hero-badge-btn">
+              <span class="arrow-circle"><i class="fa-solid fa-chevron-right"></i></span>
+              <span class="badge-text">Start shipping</span>
+            </button>
+          </div>
+          
+          <h1 class="hero-title">
+            Speed meets reliability in every delivery
+          </h1>
+          
+          <p class="hero-subtitle">
+            City-wide same-day logistics engineered for local commerce. Connecting Multiverse merchants with our premium courier network to enable swift, worry-free delivery in minutes.
+          </p>
+          
+          <!-- CTA and Integrations Row -->
+          <div class="hero-cta-row">
+            <button class="btn-create-account" id="btn-hero-create-acc">Create your account</button>
+            
+            <div class="integration-badges">
+              <div class="badge-dhl">
+                <span class="brand-dhl">DHL</span>
+              </div>
+              <div class="badge-fedex">
+                <span class="brand-fedex">FedEx</span>
+              </div>
+              <div class="badge-gojek">
+                <span class="brand-gojek"><i class="fa-solid fa-motorcycle"></i> Gojek</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hero Visual Area with 3D Canvas Container -->
+        <div class="hero-visual">
+          <div class="highway-road-overlay"></div>
+          
+          <!-- The WebGL Canvas Container for interactive 3D rotation -->
+          <div id="canvas3d-container" class="hero-image w-full h-[400px] relative z-10 cursor-grab active:cursor-grabbing"></div>
+          
+          <!-- Floating Worry Free Badge -->
+          <div class="floating-badge worry-free">
+            <span class="badge-dot"></span>
+            <span class="badge-label">Shipped, worry-free</span>
+          </div>
+          
+          <!-- Floating Gojek/Oojek Badge -->
+          <div class="floating-badge oojek">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="badge-label">Deliverse active</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESS / HOW IT WORKS GRID SECTION -->
+      <section class="process-section" id="services">
+        <div class="section-header">
+          <span class="section-tag">Logistics Infrastructure</span>
+          <h2>A seamless pipeline from checkout to doorstep</h2>
+        </div>
+        
+        <div class="process-grid">
+          <!-- Card 1: Create Account -->
+          <div class="process-card" id="card-create-account">
+            <div class="card-icon-wrapper t-logo">
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="card-content">
+              <h3>Create your account</h3>
+              <p>Register as a local merchant or driver in seconds and configure your pickup geofences.</p>
+              <div class="card-rating">
+                <div class="stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="rating-label">Multiverse Verified</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 2: Connect Store -->
+          <div class="process-card" id="card-connect-store">
+            <div class="card-icon-wrapper t-red-logo">
+              <i class="fa-solid fa-plug-circle-bolt"></i>
+            </div>
+            <div class="card-content">
+              <h3>Connect your store</h3>
+              <p>Link Shopify, WooCommerce, or your Multiverse vendor portal with 1-click API integration.</p>
+              <div class="card-rating">
+                <div class="stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="rating-label">Merchant Choice</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 3: Dispatch Center -->
+          <div class="process-card" id="card-warehouse">
+            <div class="card-icon-wrapper shell-logo">
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+            <div class="card-content">
+              <h3>Warehouse Dispatch</h3>
+              <p>Our micro-sorting centers instantly assign orders to the nearest local courier.</p>
+              <div class="card-rating">
+                <div class="stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <span class="rating-label">Local Hubs</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card 4: Start Shipping -->
+          <div class="process-card" id="card-shipping">
+            <div class="card-icon-wrapper shipping-logo">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+            <div class="card-content">
+              <h3>Start shipping</h3>
+              <p>Get instant dispatch, live interactive tracking, and automated proof of delivery.</p>
+              <div class="card-rating">
+                <div class="stars">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="rating-label">4.9/5 Average</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS / COURIERS SECTION -->
+      <section class="team-section" id="integrations">
+        <div class="section-header">
+          <span class="section-tag">Deliverse Ecosystem Partners</span>
+          <h2>Trusted by couriers, loved by merchants</h2>
+        </div>
+        
+        <div class="team-grid">
+          <!-- Profile 1: Courier -->
+          <div class="profile-card">
+            <div class="avatar-wrapper">
+              <img src="assets/avatar_driver.png" alt="Marcus Chen - Deliverse Lead Courier" class="profile-avatar">
+            </div>
+            <div class="profile-info">
+              <h4>Marcus Chen</h4>
+              <p class="profile-role">Lead Delivery Partner</p>
+              <blockquote class="profile-quote">
+                "Deliverse gives me steady local deliveries and optimized routes. I can manage 20+ runs daily without stress."
+              </blockquote>
+              <div class="profile-meta">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i> 5.0</span>
+                <span class="meta-separator">|</span>
+                <span class="trips-count">1,820 Deliveries</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Profile 2: Merchant -->
+          <div class="profile-card">
+            <div class="avatar-wrapper">
+              <img src="assets/avatar_merchant.png" alt="Sarah Jenkins - Shop Vendor" class="profile-avatar">
+            </div>
+            <div class="profile-info">
+              <h4>Sarah Jenkins</h4>
+              <p class="profile-role">Owner, Bloom & Clay Shop</p>
+              <blockquote class="profile-quote">
+                "Connecting my local shop took one click. My customers get their handmade ceramics safely in less than 2 hours!"
+              </blockquote>
+              <div class="profile-meta">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i> 4.9</span>
+                <span class="meta-separator">|</span>
+                <span class="trips-count">Active Merchant</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Profile 3: Support Specialist -->
+          <div class="profile-card">
+            <div class="avatar-wrapper">
+              <img src="assets/avatar_support.png" alt="Elena Rostova - Logistics Support" class="profile-avatar">
+            </div>
+            <div class="profile-info">
+              <h4>Elena Rostova</h4>
+              <p class="profile-role">Support & Dispatch Lead</p>
+              <blockquote class="profile-quote">
+                "We coordinate driver dispatch and assist vendors 24/7. Speed is our promise, but client peace of mind is our goal."
+              </blockquote>
+              <div class="profile-meta">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i> 5.0</span>
+                <span class="meta-separator">|</span>
+                <span class="trips-count">Support Specialist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUPPORT CONTACT SECTION -->
+      <section class="contact-section" id="contact">
+        <div class="contact-card-wrapper">
+          <div class="contact-info-panel">
+            <h3>Get in Touch with Deliverse</h3>
+            <p>Have questions about delivery integrations, custom enterprise shipping volumes, or working as a driver? Drop us a message.</p>
+            <div class="contact-details">
+              <div class="detail-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>support@deliverse.multiverse.net</span>
+              </div>
+              <div class="detail-item">
+                <i class="fa-solid fa-phone-volume"></i>
+                <span>+1 (800) 555-DELI</span>
+              </div>
+              <div class="detail-item">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Multiverse Innovation Hub, Tech District, Suite 500</span>
+              </div>
+            </div>
+          </div>
+          <div class="contact-form-panel">
+            <form id="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully! Our logistics team will contact you shortly.');">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="c-name">Full Name</label>
+                  <input type="text" id="c-name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                  <label for="c-email">Email Address</label>
+                  <input type="email" id="c-email" placeholder="john@example.com" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="c-role">Your Role</label>
+                <select id="c-role">
+                  <option value="merchant">Local Merchant / Vendor</option>
+                  <option value="driver">Courier Candidate</option>
+                  <option value="partner">Enterprise / Partner</option>
+                  <option value="other">General Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="c-msg">Message</label>
+                <textarea id="c-msg" rows="4" placeholder="How can our delivery network help you?" required></textarea>
+              </div>
+              <button type="submit" class="btn-submit-contact">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- FLEET RENTALS & DEMO VEHICLES SHOWCASE -->
+      <section class="fleet-rentals-section" id="fleet-rentals">
+        <div class="section-header">
+          <span class="section-tag">
+            <i class="fa-solid fa-truck-ramp-box"></i> Deliverse Rentals & Demo Fleet
+          </span>
+          <h2>Demo Vehicles Available for Delivery & Rent</h2>
+          <p class="section-desc">Rent premium logistics vehicles or hire dedicated delivery partners. Select from our advanced range of green city-block couriers and heavy cargo transports.</p>
+        </div>
+        
+        <div class="rentals-grid">
+          <!-- Card 1: Cargo E-Bike -->
+          <div class="rental-card">
+            <div class="rental-badge">Eco Friendly</div>
+            <div class="rental-icon-area" style="background: rgba(16, 185, 129, 0.08); color: #10b981;">
+              <i class="fa-solid fa-bicycle"></i>
+            </div>
+            <div class="rental-content">
+              <h3>Electric Cargo Bicycle</h3>
+              <p class="rental-desc">Pedal-assist micro-mobility. The ultimate choice for zero-emissions neighborhood drop-offs and tight city alleyway deliveries.</p>
+              
+              <div class="rental-specs">
+                <div class="spec-badge"><span>Weight:</span> <strong>20 kg</strong></div>
+                <div class="spec-badge"><span>Range:</span> <strong>50 km</strong></div>
+                <div class="spec-badge"><span>Speed:</span> <strong>25 km/h</strong></div>
+              </div>
+              
+              <div class="rental-footer">
+                <div class="price-area">
+                  <span class="rent-price">$8.00</span>
+                  <span class="rent-unit">/ day</span>
+                </div>
+                <button class="btn-rent-now" onclick="alert('Cargo E-Bike booked successfully! Our fleet dispatcher will contact you in 5 minutes.');">Rent Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Cargo Moped -->
+          <div class="rental-card">
+            <div class="rental-badge">Popular</div>
+            <div class="rental-icon-area" style="background: rgba(6, 182, 212, 0.08); color: #06b6d4;">
+              <i class="fa-solid fa-motorcycle"></i>
+            </div>
+            <div class="rental-content">
+              <h3>Electric Cargo Moped</h3>
+              <p class="rental-desc">High-speed moped courier with custom dual-battery swaps. Designed for ultra-fast merchant checkout parcel fulfillment.</p>
+              
+              <div class="rental-specs">
+                <div class="spec-badge"><span>Weight:</span> <strong>45 kg</strong></div>
+                <div class="spec-badge"><span>Range:</span> <strong>90 km</strong></div>
+                <div class="spec-badge"><span>Speed:</span> <strong>55 km/h</strong></div>
+              </div>
+              
+              <div class="rental-footer">
+                <div class="price-area">
+                  <span class="rent-price">$15.00</span>
+                  <span class="rent-unit">/ day</span>
+                </div>
+                <button class="btn-rent-now" onclick="alert('Cargo Moped booked successfully! Our fleet dispatcher will contact you in 5 minutes.');">Rent Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Goods Auto -->
+          <div class="rental-card">
+            <div class="rental-badge">Heavy Duty</div>
+            <div class="rental-icon-area" style="background: rgba(245, 158, 11, 0.08); color: #f59e0b;">
+              <i class="fa-solid fa-truck-front"></i>
+            </div>
+            <div class="rental-content">
+              <h3>Cargo Goods Auto</h3>
+              <p class="rental-desc">Local high-torque three-wheeler tempo. Perfect for loading heavy boxes, bulk wholesale packages, and local market crates.</p>
+              
+              <div class="rental-specs">
+                <div class="spec-badge"><span>Weight:</span> <strong>400 kg</strong></div>
+                <div class="spec-badge"><span>Range:</span> <strong>120 km</strong></div>
+                <div class="spec-badge"><span>Speed:</span> <strong>60 km/h</strong></div>
+              </div>
+              
+              <div class="rental-footer">
+                <div class="price-area">
+                  <span class="rent-price">$35.00</span>
+                  <span class="rent-unit">/ day</span>
+                </div>
+                <button class="btn-rent-now" onclick="alert('Goods Auto booked successfully! Our fleet dispatcher will contact you in 5 minutes.');">Rent Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Heavy Lorry -->
+          <div class="rental-card">
+            <div class="rental-badge">Max Cargo</div>
+            <div class="rental-icon-area" style="background: rgba(79, 70, 229, 0.08); color: #4f46e5;">
+              <i class="fa-solid fa-truck-moving"></i>
+            </div>
+            <div class="rental-content">
+              <h3>Express Lorry Truck</h3>
+              <p class="rental-desc">Premium multi-ton container truck. Optimized for heavy warehouse transfers, large commercial furniture, and bulk freight shipping.</p>
+              
+              <div class="rental-specs">
+                <div class="spec-badge"><span>Weight:</span> <strong>2,500 kg</strong></div>
+                <div class="spec-badge"><span>Range:</span> <strong>Unlimited</strong></div>
+                <div class="spec-badge"><span>HP:</span> <strong>300 HP Turbo</strong></div>
+              </div>
+              
+              <div class="rental-footer">
+                <div class="price-area">
+                  <span class="rent-price">$75.00</span>
+                  <span class="rent-unit">/ day</span>
+                </div>
+                <button class="btn-rent-now" onclick="alert('Deliverse Lorry booked successfully! Our heavy freight fleet manager will contact you in 10 minutes.');">Rent Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE NEIGHBORHOOD COURIER FLEET RADAR MAP -->
+      <section class="fleet-map-section" id="fleet-radar">
+        <div class="section-header">
+          <span class="section-tag" style="display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-satellite-dish animate-pulse"></i> Live Fleet Dispatch Radar
+          </span>
+          <h2>Nearby Delivery Partners Available</h2>
+          <p class="section-desc">Monitor local couriers, cargo tempos, and mopeds navigating street blocks in real-time. Connect your store checkout to automate instant dispatching.</p>
+        </div>
+        
+        <div class="fleet-radar-container">
+          <div class="radar-sidebar">
+            <div class="radar-stats-header">
+              <span class="status-indicator online"></span>
+              <h4>Active Local Fleet</h4>
+            </div>
+            <div class="radar-partner-list" id="radar-partner-list">
+              <!-- Live partner nodes will inject here dynamically -->
+            </div>
+          </div>
+          
+          <div class="radar-map-wrapper">
+            <canvas id="fleetRadarCanvas" width="800" height="400"></canvas>
+            
+            <!-- Glassmorphic Tooltip Card -->
+            <div id="radar-hover-card" class="radar-hover-card hidden">
+              <div class="partner-card-header">
+                <div class="partner-avatar" id="hover-partner-avatar">👤</div>
+                <div class="partner-meta">
+                  <h5 id="hover-partner-name">Marcus Chen</h5>
+                  <span id="hover-partner-vehicle" class="badge-vehicle">🏍️ Scooter</span>
+                </div>
+              </div>
+              <div class="partner-card-body">
+                <div class="partner-metric">
+                  <span class="label">Status:</span>
+                  <span id="hover-partner-status" class="val highlight">Available</span>
+                </div>
+                <div class="partner-metric">
+                  <span class="label">Rating:</span>
+                  <span id="hover-partner-rating" class="val text-amber-500"><i class="fa-solid fa-star"></i> 4.9</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sonar Pulse Indicator -->
+            <div class="radar-scanning-overlay">
+              <div class="scanning-pulse"></div>
+              <span><i class="fa-solid fa-satellite-dish animate-pulse"></i> LIVE FLEET RADAR ACTIVE</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-area">
+            <div class="logo-icon">
+              <span class="logo-box box-1"></span>
+              <span class="logo-box box-2"></span>
+            </div>
+            <span class="brand-name text-white">Deliverse</span>
+          </div>
+          <p>Local commerce expedited. Deliverse is the official logistics standard for the Multiverse local vendors marketplace ecosystem.</p>
+        </div>
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <h5>Ecosystem</h5>
+            <a href="#">Multiverse Shop</a>
+            <a href="#">Merchant Dashboard</a>
+            <a href="#">Deliverse API</a>
+            <a href="#">Fleet Hub</a>
+          </div>
+          <div class="footer-col">
+            <h5>Services</h5>
+            <a href="#" id="foot-calc-trigger">Shipping Quote</a>
+            <a href="#" id="foot-track-trigger">Live Tracking</a>
+            <a href="#">Express Same-Day</a>
+            <a href="#">Cargo Dispatch</a>
+          </div>
+          <div class="footer-col">
+            <h5>Legals</h5>
+            <a href="#">Courier Agreement</a>
+            <a href="#">Merchant TOS</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">SLA Assurances</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Deliverse Inc. & Multiverse Marketplace Platform. All rights reserved.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+    </footer>
+
+  </div> <!-- End Canvas Container -->
+
+
+  <!-- ==================== INTERACTIVE MODALS ==================== -->
+
+  <!-- Modal Backdrop Overlay -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+
+  <!-- MODAL 1: LIVE TRACK & TRACE SIMULATOR -->
+  <div class="interactive-modal" id="modal-tracking">
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <i class="fa-solid fa-location-crosshairs icon-accent"></i>
+        <div>
+          <h3>Live Track & Trace Simulator</h3>
+          <p>Monitor local couriers in real-time</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="close-modal-tracking"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="tracking-search-bar">
+        <div class="input-with-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="track-input" placeholder="Enter Tracking ID (e.g. MLT-7798, MLT-2041)..." value="MLT-7798">
+        </div>
+        <button class="btn-track-submit" id="btn-run-tracking">Locate Package</button>
+      </div>
+
+      <!-- Tracking Simulator Results Screen -->
+      <div class="tracking-simulator-dashboard" id="track-dashboard">
+        <div class="tracking-summary-cards">
+          <div class="summary-card">
+            <span class="card-label">Courier Status</span>
+            <span class="card-val pulse-text" id="track-status-txt">Waiting to Locate...</span>
+          </div>
+          <div class="summary-card">
+            <span class="card-label">Estimated Delivery</span>
+            <span class="card-val" id="track-eta-txt">-- mins</span>
+          </div>
+          <div class="summary-card">
+            <span class="card-label">Assigned Courier</span>
+            <span class="card-val" id="track-courier-txt">Marcus Chen</span>
+          </div>
+        </div>
+
+        <div class="map-simulation-area">
+          <canvas id="mapCanvas" width="560" height="200"></canvas>
+          <div class="map-overlay-instructions">
+            <span class="instruction-text"><i class="fa-solid fa-info-circle"></i> Click 'Locate Package' to start live route simulation</span>
+          </div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="tracking-steps-timeline">
+          <div class="timeline-step done" id="step-ordered">
+            <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+            <div class="step-label">Order Received</div>
+          </div>
+          <div class="timeline-step" id="step-pickup">
+            <div class="step-circle"><i class="fa-solid fa-box"></i></div>
+            <div class="step-label">Picked Up</div>
+          </div>
+          <div class="timeline-step" id="step-transit">
+            <div class="step-circle"><i class="fa-solid fa-motorcycle"></i></div>
+            <div class="step-label">In Transit</div>
+          </div>
+          <div class="timeline-step" id="step-delivered">
+            <div class="step-circle"><i class="fa-solid fa-house-chimney"></i></div>
+            <div class="step-label">Delivered</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SHIPPING CALCULATOR -->
+  <div class="interactive-modal" id="modal-calculator">
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <i class="fa-solid fa-calculator icon-accent"></i>
+        <div>
+          <h3>Shipping Cost Estimator</h3>
+          <p>Instant quotes for local deliveries</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="close-modal-calculator"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="calc-form" onsubmit="event.preventDefault();">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pickup-area">Pickup Area (District)</label>
+            <select id="pickup-area" class="input-themed">
+              <option value="downtown">Downtown Commercial Center</option>
+              <option value="tech-park">Westside Tech Park</option>
+              <option value="harbor">East Harbor Docks</option>
+              <option value="suburbs">North Suburbs Residential</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="drop-area">Drop-off Area (District)</label>
+            <select id="drop-area" class="input-themed">
+              <option value="suburbs">North Suburbs Residential</option>
+              <option value="downtown">Downtown Commercial Center</option>
+              <option value="tech-park">Westside Tech Park</option>
+              <option value="harbor">East Harbor Docks</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row flex-three">
+          <div class="form-group">
+            <label for="p-weight">Weight (kg)</label>
+            <input type="number" id="p-weight" min="0.1" step="0.1" value="1.5" class="input-themed">
+          </div>
+          <div class="form-group">
+            <label for="p-dimensions">Package Type</label>
+            <select id="p-dimensions" class="input-themed">
+              <option value="envelope">Document Envelope (Flat)</option>
+              <option value="small">Small Box (Shoebox size)</option>
+              <option value="medium" selected>Medium Parcel (Backpack size)</option>
+              <option value="large">Heavy/Large Carton</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="p-speed">Delivery Tier</label>
+            <select id="p-speed" class="input-themed">
+              <option value="eco">Eco Saver (Next-day)</option>
+              <option value="standard" selected>Standard Same-day (4 hrs)</option>
+              <option value="express">Super Sonic Express (Under 2 hrs)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="button" class="btn-calc-quote" id="btn-run-calc">Calculate Shipping Quote</button>
+      </form>
+
+      <!-- Calculator Results -->
+      <div class="calculator-results-box" id="calc-results">
+        <div class="quote-header">
+          <h4>Your Delivery Estimate</h4>
+          <span class="quote-amount" id="quote-price">$0.00</span>
+        </div>
+        <div class="quote-details-list">
+          <div class="q-detail">
+            <span>Base Transit Fare:</span>
+            <span class="val" id="quote-base">$0.00</span>
+          </div>
+          <div class="q-detail">
+            <span>District Distance Surcharge:</span>
+            <span class="val" id="quote-dist">$0.00</span>
+          </div>
+          <div class="q-detail font-bold">
+            <span>Total Estimated Cost:</span>
+            <span class="val highlight" id="quote-total">$0.00</span>
+          </div>
+          <div class="q-detail font-italic">
+            <span>Estimated Delivery Window:</span>
+            <span class="val" id="quote-eta">-- mins</span>
+          </div>
+        </div>
+        
+        <div class="quote-cta">
+          <button class="btn-create-account-small" id="btn-calc-onboard">Connect Shop and Ship This Package</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: STORE INTEGRATION HUB -->
+  <div class="interactive-modal" id="modal-integrations">
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <i class="fa-solid fa-plug-circle-bolt icon-accent"></i>
+        <div>
+          <h3>Store Integration Hub</h3>
+          <p>Link your shopping portal in 1-click</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="close-modal-integrations"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="int-intro">Connecting your local vendor shop allows Deliverse to automate courier dispatch. As soon as a customer orders on your site, a local driver is sent to pick it up.</p>
+      
+      <div class="integration-cards-list">
+        <!-- Card: Multiverse Shop -->
+        <div class="integration-item active-style" id="int-multiverse">
+          <div class="int-logo-side mult-logo">
+            <span class="logo-box box-1"></span>
+            <span class="logo-box box-2"></span>
+          </div>
+          <div class="int-info-side">
+            <h4>Multiverse Storefront</h4>
+            <p>Official core e-commerce vendor account.</p>
+          </div>
+          <button class="btn-int-action connected" id="btn-int-multiverse">Connected</button>
+        </div>
+
+        <!-- Card: Shopify -->
+        <div class="integration-item" id="int-shopify">
+          <div class="int-logo-side shopify-bg">
+            <i class="fa-brands fa-shopify"></i>
+          </div>
+          <div class="int-info-side">
+            <h4>Shopify</h4>
+            <p>Sync Shopify local checkout orders.</p>
+          </div>
+          <button class="btn-int-action" id="btn-int-shopify">Connect</button>
+        </div>
+
+        <!-- Card: WooCommerce -->
+        <div class="integration-item" id="int-woo">
+          <div class="int-logo-side woo-bg">
+            <i class="fa-brands fa-wordpress"></i>
+          </div>
+          <div class="int-info-side">
+            <h4>WooCommerce</h4>
+            <p>WordPress custom ecommerce integration.</p>
+          </div>
+          <button class="btn-int-action" id="btn-int-woo">Connect</button>
+        </div>
+      </div>
+
+      <div class="integration-api-docs">
+        <h5>Need a custom API?</h5>
+        <p>Use the Deliverse Developer API to integrate custom point-of-sale systems. <code>GET /api/v1/quotes</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: DRIVER APPLICATION & ESTIMATOR -->
+  <div class="interactive-modal" id="modal-driver">
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <i class="fa-solid fa-motorcycle icon-accent"></i>
+        <div>
+          <h3>Courier Partner Portal</h3>
+          <p>Deliver locally, earn flexibly with Deliverse</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="close-modal-driver"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="earnings-estimator-section">
+        <h4>Earnings Estimator</h4>
+        <p>Adjust the slider to see your potential weekly earnings based on active local deliveries.</p>
+        
+        <div class="slider-container">
+          <div class="slider-labels">
+            <span>Deliveries / Week: <strong id="val-trips">40</strong></span>
+          </div>
+          <input type="range" id="trips-slider" min="10" max="120" value="40" step="5" class="slider-themed">
+        </div>
+
+        <div class="estimated-earnings-card">
+          <span class="earnings-label">Estimated Weekly Income</span>
+          <span class="earnings-amount" id="val-earnings">$300.00</span>
+          <span class="earnings-subtext">*Based on average delivery fee of $7.50, plus tips. Keep 100% of tips!</span>
+        </div>
+      </div>
+
+      <hr class="modal-divider">
+
+      <div class="driver-apply-form-area">
+        <h4>Apply to Join the Fleet</h4>
+        <form id="driver-form" onsubmit="event.preventDefault(); alert('Application submitted! Our fleet operations team will review your details and contact you for onboarding.');">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-name">Your Full Name</label>
+              <input type="text" id="d-name" placeholder="Alex Rivera" required class="input-themed">
+            </div>
+            <div class="form-group">
+              <label for="d-phone">Phone Number</label>
+              <input type="tel" id="d-phone" placeholder="(555) 000-0000" required class="input-themed">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="d-vehicle">Vehicle Type</label>
+              <select id="d-vehicle" class="input-themed">
+                <option value="e-bike">Electric Bicycle / Scooter</option>
+                <option value="motorcycle" selected>Motorcycle / Moped</option>
+                <option value="car">Delivery Sedan / Hatchback</option>
+                <option value="bicycle">Standard Bicycle</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="d-area">Primary Service Zone</label>
+              <select id="d-area" class="input-themed">
+                <option value="downtown">Downtown Core & Business District</option>
+                <option value="north">North Suburbs & Residential Areas</option>
+                <option value="west">Westside Tech & Industrial Parks</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit-driver">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Firebase Auth Login Overlay (Fully Integrated Light Theme) -->
+  <div id="auth-login-overlay" class="auth-login-overlay">
+    <div class="auth-card">
+      <div class="logo-area mb-4" style="justify-content: center;">
+        <div class="logo-icon">
+          <span class="logo-box box-1"></span>
+          <span class="logo-box box-2"></span>
+        </div>
+        <span class="brand-name" style="color: #0f172a;">Deliverse</span>
+      </div>
+      <h2>Secure Portal Access</h2>
+      <p>Please enter your details to access your premium local logistics dashboard.</p>
+      
+      <div class="form-group-light" style="width: 100%; text-align: left; margin-bottom: 20px;">
+        <label for="custom-username" style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #475569; margin-bottom: 6px;">Your Name (Required)</label>
+        <input type="text" id="custom-username" placeholder="e.g. John Doe" style="width: 100%; padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: #0f172a; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; outline: none; transition: border-color 0.3s;" required>
+      </div>
+
+      <button id="btn-google-login" class="btn-google-signin">
+        <svg viewBox="0 0 48 48" style="width: 20px; height: 20px; flex-shrink: 0;">
+          <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.5 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.8 6.5 29.1 4.5 24 4.5 12.7 4.5 3.5 13.7 3.5 25S12.7 45.5 24 45.5c10.5 0 20-7.6 20-20.5 0-1-.1-2-.4-3h-16v-2z"/>
+          <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 18.9 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.8 6.5 29.1 4.5 24 4.5c-7.8 0-14.5 4.5-17.7 10.2z"/>
+          <path fill="#4CAF50" d="M24 45.5c5 0 9.7-1.9 13.2-4.9l-6.1-5.2C29.2 36.9 26.7 37.5 24 37.5c-5.2 0-9.6-3.4-11.3-8.1l-6.5 5C9.6 41.1 16.3 45.5 24 45.5z"/>
+          <path fill="#1565C0" d="M43.6 20H24v8h11.3c-.9 2.5-2.5 4.6-4.7 6l6.1 5.2c3.6-3.3 5.8-8.1 5.8-13.7 0-1-.1-2-.4-3h-.5z"/>
+        </svg>
+        <span>Sign In with Google</span>
+      </button>
+      <div style="margin-top: 20px; font-size: 10px; color: #64748b; tracking-widest; text-transform: uppercase;">
+        256-bit Encryption · Powered by Firebase
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Scripts -->
+  <script src="index.js"></script>
+</body>
+</html>

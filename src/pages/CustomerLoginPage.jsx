@@ -198,6 +198,7 @@ export default function CustomerLoginPage() {
   const [showForgot, setShowForgot] = useState(false)
   const [error, setError]           = useState('')
   const [loading, setLoading]       = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
 
   // Login
   const [loginEmail, setLoginEmail] = useState('')
@@ -224,12 +225,10 @@ export default function CustomerLoginPage() {
   /* ── Redirect if already signed in (listening to real state changes on mount) ── */
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        navigate('/search-stores', { replace: true })
-      }
+      setCurrentUser(firebaseUser)
     })
     return unsub
-  }, [navigate])
+  }, [])
 
   /* ── Tab switch animation ── */
   const switchTab = (newTab) => {
@@ -369,9 +368,54 @@ export default function CustomerLoginPage() {
         ref={cardRef}
         className="w-full max-w-md bg-white/80 backdrop-blur-xl border border-slate-200/70 rounded-3xl shadow-2xl overflow-hidden relative z-10"
       >
-
-        {/* Tab Switcher */}
-        <div className="flex border-b border-slate-100">
+        {currentUser ? (
+          <div className="p-8 flex flex-col items-center gap-6 text-center">
+            <div className="w-20 h-20 rounded-full bg-cyan-50 flex items-center justify-center text-4xl shadow-inner border border-cyan-200">
+              👤
+            </div>
+            <div>
+              <span className="text-[10px] font-display font-extrabold text-cyan-600 uppercase tracking-widest bg-cyan-50 px-3 py-1 rounded-full border border-cyan-200/60">Active Session Detected</span>
+              <h3 className="font-display font-black text-2xl text-slate-900 mt-4 leading-tight">Welcome back, {currentUser.displayName || currentUser.email}!</h3>
+              <p className="text-slate-500 text-xs mt-2">You are currently logged into CustomerVerse. Select an action below to manage your logistics session.</p>
+            </div>
+            
+            <div className="w-full flex flex-col gap-3 mt-4">
+              <button
+                onClick={() => navigate('/search-stores')}
+                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:shadow-lg text-white font-display font-bold text-xs tracking-wider uppercase rounded-xl transition-all"
+              >
+                Go to Dashboard
+              </button>
+              
+              <button
+                onClick={() => {
+                  setError('')
+                  setLoading(true)
+                  auth.signOut()
+                    .then(() => {
+                      setCurrentUser(null)
+                      setLoading(false)
+                    })
+                    .catch((err) => {
+                      setError(friendlyError(err.code))
+                      setLoading(false)
+                    })
+                }}
+                className="w-full py-3.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-display font-bold text-xs tracking-wider uppercase rounded-xl transition-all flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-slate-700/30 border-t-slate-700 rounded-full animate-spin" />
+                    Logging out…
+                  </span>
+                ) : 'Sign Out / Logout'}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Tab Switcher */}
+            <div className="flex border-b border-slate-100">
           {[
             { key: 'login',  label: 'Sign In' },
             { key: 'signup', label: 'Create Account' }
@@ -569,6 +613,8 @@ export default function CustomerLoginPage() {
             <span className="underline cursor-pointer hover:text-slate-600">Privacy Policy</span>
           </p>
         </div>
+          </>
+        )}
       </div>
 
       {/* Security badge */}
