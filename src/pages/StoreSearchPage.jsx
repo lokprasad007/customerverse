@@ -97,7 +97,7 @@ export default function StoreSearchPage() {
       </nav>
       {/* Premium Hero Section */}
       <div className="w-full max-w-7xl px-6 pt-24 pb-16 text-center flex flex-col items-center">
-        <div className="inline-flex items-center gap-3.5 px-7 py-3.5 rounded-full bg-cyan-50/85 border border-cyan-100/90 shadow-lg mb-8">
+        <div className="inline-flex items-center gap-3.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-cyan-50/90 to-blue-50/90 border-2 border-cyan-200/80 shadow-[0_0_25px_rgba(6,182,212,0.25)] hover:shadow-[0_0_35px_rgba(6,182,212,0.4)] transition-all duration-300 hover:scale-[1.03] mb-8 cursor-default">
           <ShoppingBag size={28} className="text-slate-900" />
           <span className="font-display font-black text-3xl tracking-tight text-slate-900 flex items-center">
             <RotatingText
